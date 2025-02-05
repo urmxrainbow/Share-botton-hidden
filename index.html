@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy & Share Link</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="copy-container">
+        <p class="copy-title">Generate Your Shareable Link</p>
+
+        <!-- Hidden by default until a link is generated -->
+        <p id="result" class="hidden"></p>
+
+        <!-- Hidden Copy Link Button -->
+        <button class="copy-btn hidden" onclick="copyToClipboard()">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828551.png" alt="Copy Icon">
+            Copy link
+        </button>
+
+        <!-- Success Message -->
+        <p class="copy-message">✔ Copied to clipboard!</p>
+
+        <!-- Hidden Social Share Section -->
+        <div class="share-section hidden">
+            <span>Share via</span>
+            <a href="#" class="social-icon twitter"></a>
+            <a href="#" class="social-icon linkedin"></a>
+            <a href="#" class="social-icon facebook"></a>
+            <a href="#" class="social-icon email"></a>
+        </div>
+
+        <!-- Generate Link Button (Visible initially) -->
+        <button class="generate-btn" onclick="generateLink()">Generate Link</button>
+    </div>
+
+    <script>
+        function generateLink() {
+    // Create a mock referral link (replace with a real generated URL if needed)
+    let shareableLink = `https://join.meetcompany.com/sbrbo?ref=${Math.random().toString(36).substring(7)}`;
+
+    // Display the link inside <p id="result">
+    let resultElement = document.getElementById("result");
+    resultElement.innerText = shareableLink;
+    resultElement.dataset.link = shareableLink; // Store actual link for copying
+
+    // Show hidden elements (Copy Button & Social Share)
+    document.querySelector(".copy-btn").classList.remove("hidden");
+    document.querySelector(".share-section").classList.remove("hidden");
+    resultElement.classList.remove("hidden");
+}
+
+function copyToClipboard() {
+    let resultElement = document.getElementById("result");
+
+    if (resultElement.dataset.link) { // Ensure there's a link to copy
+        navigator.clipboard.writeText(resultElement.dataset.link).then(() => {
+            let message = document.querySelector(".copy-message");
+            message.style.opacity = "1";
+
+            // Hide the message after 2 seconds
+            setTimeout(() => {
+                message.style.opacity = "0";
+            }, 2000);
+        }).catch(err => console.error("Copy failed:", err));
+    } else {
+        alert("No link to copy! Please generate one first.");
+    }
+}
+
+    </script>
+</body>
+</html>
